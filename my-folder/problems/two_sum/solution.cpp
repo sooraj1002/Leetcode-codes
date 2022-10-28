@@ -1,9 +1,8 @@
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-           vector<int> c ;
+        vector<int> c ;
         int n=nums.size();
-    //    int a,b;
        
         for(int i=0;i<n;i++)
         {  int flag=0;
@@ -19,9 +18,6 @@ public:
             if(flag==1)
                 break;
         }
-     
-     //   c.push_back(a);
-       // c.push_back(b);
         return c ;
     }
   
