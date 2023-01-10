@@ -1,18 +1,16 @@
 class Solution {
 public:
     char nextGreatestLetter(vector<char>& letters, char target) {
-        int i=0;
-        int flag=0;
-        for(;i<letters.size();i++)
+        int start=0;
+        int end=letters.size()-1;
+        while(start<=end)
         {
-            if(letters[i]>target)
-            {
-                flag=1;
-                break;
-            }
+            int mid=start+(end-start)/2;
+            if(target<letters[mid])
+            end=mid-1;
+            else
+            start=mid+1;
         }
-        if(flag==1)
-            return letters[i];
-        return letters[0];
+        return letters[start%letters.size()];
     }
 };
