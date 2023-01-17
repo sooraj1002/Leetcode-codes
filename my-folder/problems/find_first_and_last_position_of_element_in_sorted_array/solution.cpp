@@ -1,22 +1,37 @@
 class Solution {
 public:
+    int search(vector<int>& nums,int target,bool findstart)
+    {
+        int start=0;
+        int end=nums.size()-1;
+        int ans=-1;
+        while(start<=end)
+        {
+            int mid=start+(end-start)/2;
+            if(target<nums[mid])
+            end=mid-1;
+            else if(target>nums[mid])
+            start=mid+1;
+            else
+            {
+                ans=mid;
+                if(findstart)
+                {
+                    end=mid-1;
+                }
+                else
+                {
+                    start=mid+1;
+                }
+            }
+        }
+        return ans;
+    }
     vector<int> searchRange(vector<int>& nums, int target) {
-        int index=lower_bound(nums.begin(),nums.end(),target)-nums.begin();
-        int right=-1;
-        if(index != nums.size() &&  nums[index]==target)
-        {
-            right=index;
-        }
-        index= upper_bound(nums.begin(),nums.end(),target)-nums.begin()-1;
-        int left=-1;
-        if(index>=0 &&  nums[index]==target)
-        {
-            left=index;
-        }
-        if(right != -1)
-        {
-            return {right,left};
-        }
-        return {-1,-1};
+        int start= search(nums,target,true);
+        // int end=0;
+        int end= search(nums,target,false);
+        vector<int> ans ={start,end};
+        return ans;
     }
 };
