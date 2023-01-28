@@ -1,22 +1,26 @@
 class Solution {
 public:
-    vector<int> findErrorNums(vector<int>& nums) {
-        int n=nums.size();
-        vector<bool> t(n,false);
-        vector<int> ans;
-        for(int i=0;i<n;i++)
-        {
-            if(t[nums[i]]==false)
-            t[nums[i]]=true;
-            else if(t[nums[i]]==true)
-            ans.push_back(nums[i]);
+
+    void cyclicsort(vector<int> &v)
+    {
+        for(int i=0;i<v.size();){
+            // cout<<v[i]<<"  "<<i-1<<endl;
+            if(v[i]!=i+1 && v[i] !=v[v[i]-1])
+            swap(v[i],v[v[i]-1]);
+            else
+            i++;
         }
-        for(int i=1;i<=n;i++)
+    }
+
+    vector<int> findErrorNums(vector<int>& nums) {
+        vector<int> ans;
+        cyclicsort(nums);
+        for(int i=0;i<nums.size();i++)
         {
-            if(t[i]==false)
+            if(nums[i]!=i+1)
             {
-                ans.push_back(i);
-                break;
+                ans.push_back(nums[i]);
+                ans.push_back(i+1);
             }
         }
         return ans;
