@@ -1,19 +1,20 @@
 class Solution {
 public:
-    int findDuplicate(vector<int>& nums) {
-        int n=nums.size();
-        vector<bool> t(n,false);
-        int ans;
-        for(int i=0;i<n;i++)
-        {
-            if(t[nums[i]]==false)
-            t[nums[i]]=true;
-            else if(t[nums[i]]==true)
-            {
-                ans=nums[i];
-                break;
-            }
+    void cyclicsort(vector<int> &v)
+    {
+        for(int i=0;i<v.size();){
+            // cout<<v[i]<<"  "<<i-1<<endl;
+            if(v[i]!=i+1 && v[i] !=v[v[i]-1])
+            swap(v[i],v[v[i]-1]);
+            else
+            i++;
         }
-        return ans;
+    }
+
+    int findDuplicate(vector<int>& nums) {
+    vector<int> ans;
+    cyclicsort(nums);
+
+    return nums[nums.size()-1];
     }
 };
