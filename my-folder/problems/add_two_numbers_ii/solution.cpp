@@ -8,101 +8,94 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-class Solution {
-public:
-
-    ListNode* rev(ListNode* head)
+class Solution
+{
+ListNode* reverse(ListNode* head)
     {
-        if(head==NULL || head->next==NULL)
-        return head;
         ListNode* prev=NULL;
-        while(head != NULL)
+        ListNode* curr=head;
+        ListNode* fwd=NULL;
+        while(curr!=NULL)
         {
-            ListNode* temp=head->next;
-            head->next=prev;
-            prev=head;
-            head=temp;
+            fwd=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=fwd;
         }
         return prev;
     }
-
-    ListNode* add(ListNode* l1,ListNode* l2)
-    {
-        int carry=0;
-        ListNode* head=new ListNode();
-        ListNode* ans=head;
-
-        int n=l1->val+l2->val;
-        if(n>9)
+    void insertAtTail(ListNode* &ansHead,ListNode* &ansTail,int val)
+    { 
+        ListNode* temp=new ListNode(val);
+        if(ansHead==NULL)
         {
-            carry=1;
-            n=n-10;
+          ansHead=temp;
+          ansTail=temp;
+          return;
         }
         else
-        carry=0;
-        ans->val=n;
-        l1=l1->next;
-        l2=l2->next;
-
-        while(l1 != NULL && l2 !=NULL)
         {
-            int n=l1->val+l2->val+carry;
-            if(n>9)
-            {
-                carry=1;
-                n=n-10;
-            }
-            else
-            carry=0;
-            ListNode* temp=new ListNode(n);
-            head->next=temp; 
-            head=head->next; 
-            l1=l1->next;
-            l2=l2->next;
+            ansTail->next=temp;
+            ansTail=temp;
         }
-        while(l1 != NULL)
-        {
-            int n=l1->val+carry;
-            if(n>9)
-            {
-                carry=1;
-                n -=10;
-            }
-            else
-            carry=0;
-            ListNode* temp=new ListNode(n);
-            head->next=temp; 
-            head=head->next; 
-            l1=l1->next;
-        }
-        while(l2 != NULL)
-        {
-            int n=l2->val+carry;
-            if(n>9)
-            {
-                carry=1;
-                n -=10;
-            }
-            else
-            carry=0;
-            ListNode* temp=new ListNode(n);
-            head->next=temp; 
-            head=head->next; 
-            l2=l2->next;
-        }
-        if(carry==1)
-        {
-            ListNode* temp=new ListNode(1);
-            head->next=temp; 
-        }
-        return ans;
     }
 
+    ListNode* add(ListNode* l1,ListNode* l2){
+        int carry = 0;
+        
+        ListNode* ansHead = NULL;
+         ListNode* ansTail = NULL;
+        
+        while(l1 != NULL || l2 != NULL||carry!=0) {
+            
+            int val1 = 0;
+            if(l1 != NULL)
+                val1 = l1 -> val;
+                
+            int val2 = 0;
+            if(l2 !=NULL)
+                val2 = l2 -> val;
+            
+            
+            int sum = carry + val1 + val2;
+            
+            int digit = sum%10;
+            
+            //create node and add in answer Linked List
+            insertAtTail(ansHead, ansTail, digit);
+            
+            carry = sum/10;
+            if(l1 != NULL)
+                l1 = l1 -> next;
+            
+            if(l2 != NULL)
+                l2 = l2 -> next;
+        }
+        return ansHead;
+          
+
+    }  
+  
+
+
+        
+    
+
+    
+        
+public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        l1=rev(l1);
-        l2=rev(l2);
+       
+        l1=reverse(l1);
+        l2=reverse(l2);
         ListNode* ans=add(l1,l2);
-        ans=rev(ans);
+        ans=reverse(ans);
         return ans;
+        
+
+
+       
+    
+        
     }
 };
