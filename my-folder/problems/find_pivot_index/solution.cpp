@@ -1,24 +1,26 @@
 class Solution {
+
 public:
     int pivotIndex(vector<int>& nums) {
-        int sum=0;
-        for(auto i:nums)
-            sum +=i;
-            // cout<<sum<<endl;
-        int ans=-1;
-        int t=sum;
-        int i=0;
-        for(;i<nums.size();i++)
-        {
-            cout<<t<<endl;
-
-            if(2*(t-nums[i])==(sum-nums[i])){
-                ans=i;
-                break;
-            }
-            else
-                t -= nums[i];
+        // int leftsum = 0;
+        int temp = 0;
+        for(int i=0; i<nums.size();i++){
+           temp=temp+nums[i];
         }
-        return ans;
+        int x=temp;
+//    cout<<temp;
+        for(int i=0; i<nums.size();i++){
+            x = x - nums[i];
+            // cout<<"x  "<<x<<endl;
+            int y = x;
+            int leftsum=0;
+            for(int j = i; j >0 ; j --){  
+                leftsum += nums[j-1];
+                // cout<<"l "<<leftsum<<endl;
+            }
+            if (leftsum == y)
+                return i; 
+        }
+       return -1;
     }
 };
