@@ -1,67 +1,31 @@
 class Solution {
 public:
-    vector<int> rev(vector<int>& v){
-        vector<int> v1;
-        for(int i=v.size()-1;i>-1;i--)
+
+    void rev(vector<int> &arr){
+        for(int i=0;i<arr.size()/2;i++)
         {
-            int t1=v[i];
-            v1.push_back(t1);
+            swap(arr[i],arr[arr.size()-i-1]);
         }
-        return v1;
     }
-    
-    vector<int> addToArrayForm(vector<int>& num, int k) {
-        
-        vector<int> v,v1,ans;
-        int flag=0;
-        while(k != 0)
-        {
-            v.push_back(k%10);
-            k=k/10;
-        }
-        if(v.size()>num.size())
-        {
-            vector<int> temp=v;
-            v=rev(num);
-            num=temp;
-            flag=1;
-        }
-        while(v.size()-1<num.size()-1)
-        {
-            v.push_back(0);
-        }
-        int i=num.size()-1;
-        
-        v1=rev(v);
-        if(flag==1)
-            num=rev(num);
+
+    vector<int> addToArrayForm(vector<int>& nums, int k) {
+        rev(nums);
         int carry=0;
-        for(;i>0;i--)
-        {
-            int n=num[i]+v1[i]+carry;
-            if(n>9)
-            {
-                ans.push_back(n-10);
-                carry=1;
-            }
-            else
-            {
-                ans.push_back(n);
-                carry=0;
-            }
+        int index=0;
+        while((k != 0 || carry==1)&& index<nums.size()){
+            int d=k%10+carry+nums[index];
+            nums[index]=d%10;
+            k /=10;
+            carry=d/10;
+            index++;
         }
-        if(num[0]+v1[0]+carry>9)
-        {
-            ans.push_back(num[0]+v1[0]+carry-10);
-            ans.push_back(1);
+        while(k != 0 || carry==1){
+            int d=k%10+carry;
+            nums.push_back(d%10);
+            carry=d/10;
+            k /=10;
         }
-        else
-        {
-            ans.push_back(num[0]+v1[0]+carry);
-        }
-        ans=rev(ans);
-        return ans;
-        
-        
+        rev(nums);
+        return nums;
     }
 };
