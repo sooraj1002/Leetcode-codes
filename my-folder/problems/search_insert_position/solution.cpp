@@ -22,8 +22,8 @@ public:
                 end=mid-1;
             }
         }
-        cout<<nums[start]<<endl;
-        cout<<start;
+        // cout<<nums[start]<<endl;
+        // cout<<start;
         if(index==-1)
         {
             if(nums[start]>=target)
