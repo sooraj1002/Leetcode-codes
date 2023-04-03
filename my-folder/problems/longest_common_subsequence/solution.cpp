@@ -1,21 +1,38 @@
 class Solution {
 public:
-    int longestCommonSubsequence(string s1, string s2) {
-        int m=s1.length();
-        int n=s2.length();
-        int l[m+1][n+1];
-        for(int i=0;i<=m;i++)
-        {
-            for(int j=0;j<=n;j++)
-            {
-                if(i==0 || j==0)
-                l[i][j]=0;
-                else if(s1[i-1]==s2[j-1])
-                l[i][j]=l[i-1][j-1]+1;
+
+    int longestCommonSubsequence(string s1, string s2){
+        int n1=s1.length();
+        int n2=s2.length();
+        vector<vector<int>> dp(n1+1,vector<int>(n2+1,0));
+
+        for(int ind1=1;ind1<=n1;ind1++){
+            for(int ind2=1;ind2<=n2;ind2++){
+
+                if(s1[ind1-1]==s2[ind2-1]){                   //shifted to right, so we check for index-1
+                    dp[ind1][ind2]=1+dp[ind1-1][ind2-1];
+                }
                 else
-                l[i][j]=max(l[i-1][j],l[i][j-1]);
+                    dp[ind1][ind2]=max(dp[ind1-1][ind2],dp[ind1][ind2-1]);
             }
-        }   
-        return l[m][n];
+        }
+        return dp[n1][n2];
     }
+
+    //RECURSIVE SOLUTION
+    // int solve(string &s1,string &s2,int ind1,int ind2,vector<vector<int>> &dp){
+    //     if(ind1<0 || ind2<0)
+    //         return 0;
+    //     if(dp[ind1][ind2] != -1) return dp[ind1][ind2];
+    //     if(s1[ind1]==s2[ind2])
+    //         return dp[ind1][ind2]=1+solve(s1,s2,ind1-1,ind2-1,dp);
+        
+    //     return dp[ind1][ind2]=max(solve(s1,s2,ind1-1,ind2,dp),solve(s1,s2,ind1,ind2-1,dp));
+    // }
+    // int longestCommonSubsequence(string text1, string text2) {
+    //     int n1=text1.length();
+    //     int n2=text2.length();
+    //     vector<vector<int>> dp(n1,vector<int>(n2,-1));
+    //     return solve(text1,text2,n1-1,n2-1,dp);
+    // }
 };
